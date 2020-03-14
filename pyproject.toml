@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "gsheet-fetch"
+version = "0.1.0"
+description = "An automation script that fetches data from Google Sheet and imports in an RDBMS"
+authors = ["Sergio Kef <sergiokef@gmail.com>"]
+license = "Apache-2.0"
+packages = [{include = "fetch"}]
+repository = "https://github.com/COVID2019-app/gsheet-fetch"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+python-dotenv = "^0.12.0"
+
+[tool.poetry.scripts]
+gsheet-fetch = "fetch:main"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.4.1"
+isort = "^4.3.21"
+flake8 = "^3.7.9"
+seed-isort-config = "^2.1.0"
+black = "^19.10b0"
+pylint = "^2.4.4"
+pre-commit = "^2.2.0"
+
+[build-system]
+requires = ["poetry>=1.0.5"]
+build-backend = "poetry.masonry.api"
