@@ -10,7 +10,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from fetch.config import (
-    DB_INSERT_RAW_HOME_DATA,
+    DB_INSERT_CHANGELOG_ENTRY,
     DB_SESSION_MAKER,
     GSHEET_API_SERVICE_ACCOUNT_CREDENTIALS,
     GSHEET_SHEET_LIVE_NAME,
@@ -78,8 +78,8 @@ class HomeData(GsheetFetcher):
             return None
         logger.info("Processing fetched data...")
         df = pd.DataFrame(data["values"]).iloc[3:, [2, 4, 8, 13, 17, 21, 24]]
-        df = df.replace(r"^\s*$", "0", regex=True).fillna(0).reset_index(drop=True)
-        df = df.drop(df[df[df.columns[0]].replace("0", pd.NaT).isnull()].index)
+        df = df.replace(r"^\s*$", 0, regex=True).fillna(0).reset_index(drop=True)
+        df = df.drop(df[df[df.columns[0]].replace(0, pd.NaT).isnull()].index)
         val_cols = ["cases", "deaths", "recovered", "severe", "tested", "active"]
         df.columns = ["rec_territory"] + val_cols
         for field in val_cols:
@@ -100,18 +100,22 @@ class HomeData(GsheetFetcher):
         logger.info("Storing processed data...")
 
         df.to_sql("latest_home_data", self.db, if_exists="replace", index=False)
-        self.db.execute(
-            DB_INSERT_RAW_HOME_DATA,
-            [
-                (
-                    rec.rec_territory,
-                    rec.cases,
-                    rec.deaths,
-                    rec.recovered,
-                    rec.severe,
-                    rec.tested,
-                    rec.active,
-                )
-                for _, rec in df.iterrows()
-            ],
-        )
+
+        unroll_map = {
+            "case": "cases",
+            "death": "deaths",
+            "recovery": "recovered",
+            "severe": "severe",
+            "test": "tested",
+            "active": "active",
+        }
+
+        for catg, col in unroll_map.items():
+            catg_data = df[["rec_territory", col]]
+            self.db.execute(
+                DB_INSERT_CHANGELOG_ENTRY,
+                [
+                    (rec.rec_territory, catg, rec[col],)
+                    for _, rec in catg_data.iterrows()
+                ],
+            )

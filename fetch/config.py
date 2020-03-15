@@ -33,10 +33,10 @@ def read_file(filepath):
 
 
 # Database
-DB_CREATE_RAW_HOME_TABLE = read_file(SQL / "create_raw_home_data.sql")
+DB_CREATE_RECORD_CHANGELOG_TABLE = read_file(SQL / "create_record_changelog.sql")
 DB_CREATE_LATEST_HOME_TABLE = read_file(SQL / "create_latest_home_data.sql")
-DB_INSERT_RAW_HOME_DATA = read_file(SQL / "insert_raw_home_data.sql")
-DB_MIGRATE_DDL = [DB_CREATE_RAW_HOME_TABLE, DB_CREATE_LATEST_HOME_TABLE]
+DB_INSERT_CHANGELOG_ENTRY = read_file(SQL / "insert_changelog_entry.sql")
+DB_MIGRATE_DDL = [DB_CREATE_RECORD_CHANGELOG_TABLE, DB_CREATE_LATEST_HOME_TABLE]
 
 
 def build_db_session_maker():
