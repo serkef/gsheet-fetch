@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS record_changelog (
     id SERIAL,
-    rec_ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    rec_ts TIMESTAMP WITHOUT TIME ZONE DEFAULT (now() AT TIME ZONE 'utc'),
     rec_territory TEXT NOT NULL,
     rec_category record_category NOT NULL,
     rec_value INTEGER NOT NULL,
