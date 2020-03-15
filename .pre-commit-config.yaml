@@ -25,3 +25,4 @@ repos:
     rev: v2.3.1
     hooks:
       - id: pylint
+        language: system
