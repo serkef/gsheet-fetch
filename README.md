@@ -3,7 +3,7 @@ An automation script that fetches data from Google Sheet and imports in an RDBMS
 
 ## How to run
 * Build docker `docker build -t gsheet-fetch .`
-* Run docker `docker run --rm --name gsheet-fetch gsheet-fetch`
+* Run docker `docker run --rm --env-file=.env --name gsheet-fetch gsheet-fetch`
 
 ## How to develop
 * Checkout the repository `git clone git@github.com:COVID2019-app/gsheet-fetch.git`
