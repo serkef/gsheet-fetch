@@ -15,7 +15,6 @@ SQL = Path(__file__).parent / "sql"
 LOGLEVEL = os.getenv("LOGLEVEL", "INFO")
 
 # Google API
-GSHEET_API_SCOPES = os.environ["GSHEET_API_SCOPES"]
 GSHEET_API_SERVICE_ACCOUNT_CREDENTIALS = os.environ[
     "GSHEET_API_SERVICE_ACCOUNT_CREDENTIALS"
 ]
