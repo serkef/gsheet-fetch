@@ -1,6 +1,8 @@
 # gsheet-fetch
 An automation script that fetches data from Google Sheet and imports in an RDBMS
 
+Original repo: https://github.com/serkef/covid_bot
+
 ## How to run
 * Build docker `docker build -t gsheet-fetch .`
 * Run docker `docker run -d --env-file=.env --restart always --name gsheet-fetch gsheet-fetch`
